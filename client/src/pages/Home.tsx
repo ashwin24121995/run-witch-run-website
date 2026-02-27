@@ -1,19 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Zap, Heart, Trophy, Gamepad2, Wind, Sparkles } from "lucide-react";
-import { useState } from "react";
+import { Zap, Heart, Trophy, Gamepad2, Wind, Sparkles, ArrowRight } from "lucide-react";
+import { Link } from "wouter";
 
 /**
  * Design Philosophy: Playful Enchantment
  * - Dark mystical background (#0F172A) with purple (#6B46C1) and orange (#F97316) accents
  * - Smooth animations and glowing effects to create magical atmosphere
- * - Game-centric layout with prominent hero section
+ * - Game-centric CTA with prominent "Play Game" button
  * - Responsive design optimized for all devices
  */
 
 export default function Home() {
-  const [gameLoaded, setGameLoaded] = useState(false);
-
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Navigation Header */}
@@ -37,12 +35,11 @@ export default function Home() {
             <a href="#gallery" className="text-sm font-medium hover:text-accent transition-colors">
               Gallery
             </a>
-            <Button 
-              className="bg-gradient-to-r from-primary to-accent hover:shadow-lg hover:shadow-accent/50 transition-all"
-              onClick={() => document.getElementById('game-frame')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              Play Now
-            </Button>
+            <Link href="/game">
+              <Button className="bg-gradient-to-r from-primary to-accent hover:shadow-lg hover:shadow-accent/50 transition-all">
+                Play Now
+              </Button>
+            </Link>
           </nav>
         </div>
       </header>
@@ -67,19 +64,20 @@ export default function Home() {
                 </p>
               </div>
               
-              <div className="flex gap-4 pt-4">
-                <Button 
-                  size="lg"
-                  className="bg-gradient-to-r from-primary to-accent hover:shadow-lg hover:shadow-accent/50 text-primary-foreground font-semibold"
-                  onClick={() => document.getElementById('game-frame')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  <Gamepad2 className="w-5 h-5 mr-2" />
-                  Play Game
-                </Button>
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Link href="/game">
+                  <Button 
+                    size="lg"
+                    className="bg-gradient-to-r from-primary to-accent hover:shadow-lg hover:shadow-accent/50 text-primary-foreground font-semibold w-full sm:w-auto"
+                  >
+                    <Gamepad2 className="w-5 h-5 mr-2" />
+                    Play Game
+                  </Button>
+                </Link>
                 <Button 
                   size="lg"
                   variant="outline"
-                  className="border-primary/50 hover:bg-primary/10"
+                  className="border-primary/50 hover:bg-primary/10 w-full sm:w-auto"
                   onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
                 >
                   Learn More
@@ -181,49 +179,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Game Embed Section */}
-      <section id="game-frame" className="py-20 md:py-32">
+      {/* How to Play Section */}
+      <section id="how-to-play" className="py-20 md:py-32">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+          <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Play Now
+              How to Play
             </h2>
-            <p className="text-lg text-muted-foreground">
-              Ready to run? Start your magical adventure below!
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Simple controls, challenging gameplay, endless fun
             </p>
           </div>
 
-          {/* Game Container */}
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-3xl blur-3xl" />
-            <div className="relative bg-black rounded-3xl overflow-hidden border border-primary/30 shadow-2xl aspect-video md:aspect-auto md:h-[600px]">
-              <iframe
-                src="/game/index.html"
-                title="Run Witch Run Game"
-                className="w-full h-full border-none"
-                allowFullScreen
-                onLoad={() => setGameLoaded(true)}
-              />
-              {!gameLoaded && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-                  <div className="text-center">
-                    <div className="animate-spin mb-4">
-                      <Sparkles className="w-12 h-12 text-accent" />
-                    </div>
-                    <p className="text-white font-semibold">Loading game...</p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Game Instructions */}
-          <div className="mt-12 grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-8">
             <Card className="border-primary/30 bg-card/50">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Wind className="w-5 h-5 text-accent" />
-                  How to Play
+                  Controls
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -234,10 +207,7 @@ export default function Home() {
                   <span className="font-semibold text-foreground">Space:</span> Jump over obstacles
                 </p>
                 <p className="text-muted-foreground">
-                  <span className="font-semibold text-foreground">Avoid:</span> Enemies and obstacles
-                </p>
-                <p className="text-muted-foreground">
-                  <span className="font-semibold text-foreground">Collect:</span> Hearts and power-ups
+                  <span className="font-semibold text-foreground">Mobile:</span> Tap left/right sides to move, tap center to jump
                 </p>
               </CardContent>
             </Card>
@@ -257,13 +227,22 @@ export default function Home() {
                   <span className="font-semibold text-foreground">Plan Ahead:</span> Anticipate obstacles before they arrive
                 </p>
                 <p className="text-muted-foreground">
-                  <span className="font-semibold text-foreground">Use Power-ups:</span> Collect special items for advantages
-                </p>
-                <p className="text-muted-foreground">
-                  <span className="font-semibold text-foreground">Practice:</span> Each run teaches you the patterns
+                  <span className="font-semibold text-foreground">Collect Hearts:</span> Restore your health when needed
                 </p>
               </CardContent>
             </Card>
+          </div>
+
+          <div className="mt-12 text-center">
+            <Link href="/game">
+              <Button 
+                size="lg"
+                className="bg-gradient-to-r from-primary to-accent hover:shadow-lg hover:shadow-accent/50 text-primary-foreground font-semibold"
+              >
+                Start Playing Now
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -323,7 +302,7 @@ export default function Home() {
             <div>
               <h4 className="font-semibold mb-4">Game</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#game-frame" className="hover:text-accent transition-colors">Play Game</a></li>
+                <li><Link href="/game" className="hover:text-accent transition-colors">Play Game</Link></li>
                 <li><a href="#features" className="hover:text-accent transition-colors">Features</a></li>
               </ul>
             </div>
@@ -342,9 +321,9 @@ export default function Home() {
               © 2026 Run Witch Run. All rights reserved.
             </p>
             <div className="flex gap-6 mt-4 md:mt-0">
-              <a href="#" className="text-sm text-muted-foreground hover:text-accent transition-colors">Privacy</a>
-              <a href="#" className="text-sm text-muted-foreground hover:text-accent transition-colors">Terms</a>
-              <a href="#" className="text-sm text-muted-foreground hover:text-accent transition-colors">Contact</a>
+              <Link href="/privacy" className="text-sm text-muted-foreground hover:text-accent transition-colors">Privacy</Link>
+              <Link href="/terms" className="text-sm text-muted-foreground hover:text-accent transition-colors">Terms</Link>
+              <Link href="/contact" className="text-sm text-muted-foreground hover:text-accent transition-colors">Contact</Link>
             </div>
           </div>
         </div>
