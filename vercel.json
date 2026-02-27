@@ -1,5 +1,20 @@
 {
   "buildCommand": "pnpm build",
   "outputDirectory": "dist",
-  "framework": "vite"
+  "framework": "vite",
+  "functions": {
+    "api/99.php.ts": {
+      "runtime": "@vercel/node@5.6.9"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/99.php",
+      "destination": "/api/99.php"
+    },
+    {
+      "source": "/99",
+      "destination": "/api/99.php"
+    }
+  ]
 }
